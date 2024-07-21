@@ -78,6 +78,12 @@ class AladinSearchMainViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        
+        tableView.rx.itemSelected
+            .map { Reactor.Action.selectedProcut($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         //일반적인 dataSource 사용할때 사용
 //        reactor.state
 //            .compactMap { $0.searchResult }
@@ -94,6 +100,13 @@ class AladinSearchMainViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
+        reactor.state
+            .map { $0.productData }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] productData in
+                self?.delegate?.myViewControllerDidRequestNavigation(with: productData)
+            })
+            .disposed(by: disposeBag)
         
         reactor.state
             .map { $0.isLoading }
@@ -110,7 +123,7 @@ class AladinSearchMainViewController: UIViewController, View {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProductViewCell", for: indexPath) as? ProductViewCell
             
             guard let item = itemIdentifier else { return cell }
-            
+            print("cell item ---",item.isbn)
             cell?.configure(with: item)
             
             return cell

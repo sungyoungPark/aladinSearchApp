@@ -6,7 +6,6 @@
 //
 
 import Foundation
-//https://docs.google.com/document/d/1mX-WxuoGs8Hy-QalhHcvuV17n50uGI2Sg_GHofgiePE/edit#heading=h.rwqmubemczrb
 
 class XMLParserManager: NSObject, XMLParserDelegate {
     private var items: [AladinData] = []
@@ -15,6 +14,7 @@ class XMLParserManager: NSObject, XMLParserDelegate {
     private var currentTitle = ""
     private var currentLink = ""
     private var currentCover = ""
+    private var currentIsbn = ""
 
     func parseXML(data: Data) -> [AladinData] {
         let parser = XMLParser(data: data)
@@ -30,17 +30,20 @@ class XMLParserManager: NSObject, XMLParserDelegate {
             currentTitle = ""
             currentLink = ""
             currentCover = ""
+            currentIsbn = ""
         }
     }
 
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         switch currentElement {
-        case "title":
+        case "title" :
             currentTitle += string
-        case "link":
+        case "link" :
             currentLink += string
-        case "cover":
+        case "cover" :
             currentCover += string
+        case "isbn" :
+            currentIsbn += string
         default:
             break
         }
@@ -48,7 +51,7 @@ class XMLParserManager: NSObject, XMLParserDelegate {
 
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
-            let item = AladinData(title: currentTitle, link: currentLink, cover: currentCover.trimmingCharacters(in: .whitespacesAndNewlines))
+            let item = AladinData(title: currentTitle, link: currentLink, cover: currentCover.trimmingCharacters(in: .whitespacesAndNewlines), isbn: currentIsbn)
             items.append(item)
         }
     }

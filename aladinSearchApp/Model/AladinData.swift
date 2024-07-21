@@ -13,6 +13,7 @@ struct AladinData: Codable {
     var title: String
     var link : String
     var cover : String
+    var isbn : String
 }
 
 extension AladinData : Hashable {
