@@ -17,18 +17,21 @@ class AladinSearchReactor : Reactor {
     enum Action {
         case search(String)
         case updateQuery(String)
+        case selectedProcut(IndexPath)
     }
     
     enum Mutation {
         case loadSearchData([AladinData])
         case setQuery(String)
         case setLoading(Bool)
+        case setProductData(AladinData?)
     }
     
     struct State {
         var query : String = ""
         var searchResult : [AladinData]? = nil
         var isLoading : Bool = false
+        var productData : AladinData? = nil
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -45,6 +48,12 @@ class AladinSearchReactor : Reactor {
             
         case .updateQuery(let query) :
             return Observable.just(Mutation.setQuery(query))
+        case .selectedProcut(let index):
+            
+            return ApiManager.shared.requestCheckProduct(itemID: currentState.searchResult?[index.row].isbn ?? "")
+                .map { data in
+                    return .setProductData(data)
+                }
         }
     }
     
@@ -58,6 +67,9 @@ class AladinSearchReactor : Reactor {
             newState.query = query
         case .setLoading(let isLoad) :
             newState.isLoading = isLoad
+        case .setProductData(let productData) :
+            print("setProduct")
+            newState.productData = productData
         }
         return newState
     }
