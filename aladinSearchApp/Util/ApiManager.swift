@@ -48,15 +48,12 @@ class ApiManager {
     
     func requestCheckProduct(itemID : String) -> Observable<AladinData?> {
         return Observable.create { [weak self] observer in
-            let url = "http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx"
             let myToken = Bundle.main.apiKey
             
-            let parameters: [String: Any] = [
-                "TTBKey" : "\(myToken)",
-                "ItemId" : "\(itemID)"
-            ]
-            print("itemid ---", itemID)
-            AF.request(url, method: .get, parameters: parameters).response { response in
+            let url = "http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=\(myToken)&itemIdType=ISBN&ItemId=\(itemID)&output=xml&Version=20131101&OptResult=ebookList,usedList,reviewListl"
+            
+            AF.request(url, method: .get).response { response in
+                print("상품 요청 ---", response.request?.url)
                 switch response.result {
                 case .success(let data):
                     print("상품 상세 data ---", String(data: data!, encoding: .utf8))

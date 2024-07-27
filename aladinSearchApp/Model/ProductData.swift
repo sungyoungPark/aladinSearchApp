@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+struct UsedProductData: Codable {
+    
+    var uuid = UUID()
+    var title: String
+    var link : String
+    var cover : String
+    var isbn : String
+}
