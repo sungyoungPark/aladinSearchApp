@@ -14,6 +14,14 @@ struct AladinData: Codable {
     var link : String
     var cover : String
     var isbn : String
+    
+    init() {
+        self.title = ""
+        self.link = ""
+        self.cover = ""
+        self.isbn = ""
+    }
+    
 }
 
 extension AladinData : Hashable {

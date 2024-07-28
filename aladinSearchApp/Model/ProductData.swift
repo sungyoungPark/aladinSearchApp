@@ -10,8 +10,27 @@ import Foundation
 struct ProductData: Codable {
     
     var uuid = UUID()
-    var title: String
-    var link : String
-    var cover : String
-    var isbn : String
+    var itemPage : String
+    var ebook_itemId : String
+    var ebook_isbn : String
+    var ebook_priceSales : String
+    
+    init() {
+        self.itemPage = ""
+        self.ebook_itemId = ""
+        self.ebook_isbn = ""
+        self.ebook_priceSales = ""
+    }
+    
+}
+
+extension ProductData : Hashable {
+    
+    static func == (lhs: ProductData, rhs: ProductData) -> Bool {
+        return lhs.uuid == rhs.uuid
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(uuid)
+    }
+    
 }
