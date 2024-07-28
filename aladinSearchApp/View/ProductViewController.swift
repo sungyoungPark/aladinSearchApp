@@ -17,6 +17,18 @@ class ProductViewController: UIViewController, View {
     
     var disposeBag: DisposeBag = DisposeBag()
     
+    lazy var mainStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .leading
+        stackView.distribution = .fill
+        
+        stackView.backgroundColor = .blue
+        
+        return stackView
+    }()
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +38,12 @@ class ProductViewController: UIViewController, View {
     }
     
     func setupUI() {
-       
+        self.view.addSubview(mainStackView)
+        
+        mainStackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
     }
     
 
