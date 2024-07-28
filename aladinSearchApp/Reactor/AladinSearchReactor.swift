@@ -24,14 +24,14 @@ class AladinSearchReactor : Reactor {
         case loadSearchData([AladinData])
         case setQuery(String)
         case setLoading(Bool)
-        case setProductData(AladinData?)
+        case setProductData(ProductData?)
     }
     
     struct State {
         var query : String = ""
         var searchResult : [AladinData]? = nil
         var isLoading : Bool = false
-        var productData : AladinData? = nil
+        var productData : ProductData? = nil
     }
     
     func mutate(action: Action) -> Observable<Mutation> {

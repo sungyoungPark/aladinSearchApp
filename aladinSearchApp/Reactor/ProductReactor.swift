@@ -23,12 +23,11 @@ class ProductReactor : Reactor {
     }
     
     struct State {
-        var productData : AladinData?
+        var productData : ProductData?
     }
     
-    init(productData : AladinData?) {
+    init(productData : ProductData?) {
         self.initialState = State(productData: productData)
-        print("aladinData ---", productData)
     }
     
 }
