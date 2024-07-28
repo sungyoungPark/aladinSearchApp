@@ -28,7 +28,7 @@ class ApiManager {
             ]
             
             AF.request(url, method: .get, parameters: parameters).response { response in
-               
+                print("requestApi ---", response.request?.url)
                 switch response.result {
                 case .success(let data):
                     guard let data = data else { return }
@@ -46,7 +46,7 @@ class ApiManager {
         
     }
     
-    func requestCheckProduct(itemID : String) -> Observable<AladinData?> {
+    func requestCheckProduct(itemID : String) -> Observable<ProductData?> {
         return Observable.create { [weak self] observer in
             let myToken = Bundle.main.apiKey
             
@@ -60,11 +60,10 @@ class ApiManager {
                 print("상품 요청 ---", response.request?.url)
                 switch response.result {
                 case .success(let data):
-                    print("상품 상세 data ---", String(data: data!, encoding: .utf8))
                     guard let data = data else { return }
-                    guard let aladinData = self?.parseXMLData(xmlData: data) else { return }
+                    guard let productData = self?.parseProductData(xmlData: data) else { return }
                     
-                    observer.onNext(aladinData.first ?? nil)
+                    observer.onNext(productData)
                     observer.onCompleted()
                 case .failure(let error):
                     print("Error: \(error)")
@@ -77,6 +76,12 @@ class ApiManager {
     func parseXMLData(xmlData: Data) -> [AladinData]{
         let parserManager = XMLParserManager()
         let items = parserManager.parseXML(data: xmlData)
+        return items
+    }
+    
+    func parseProductData(xmlData: Data) -> ProductData? {
+        let parserManager = XMLParserManager()
+        let items = parserManager.parseProductXML(data: xmlData)
         return items
     }
     
