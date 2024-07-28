@@ -33,8 +33,8 @@ class MainCoordinator: Coordinator {
     
     func navigateToNextViewController(with data : AladinData?) {
         let nextViewController = ProductViewController()
-//        let reactor = DetailMatchReactor(feedData: data)
-//        nextViewController.reactor = reactor
+        let reactor = ProductReactor(productData: data)
+        nextViewController.reactor = reactor
         navigationController.pushViewController(nextViewController, animated: true)
     }
     

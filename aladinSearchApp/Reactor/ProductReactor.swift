@@ -12,7 +12,7 @@ import ReactorKit
 
 class ProductReactor : Reactor {
     
-    let initialState = State()
+    let initialState : State
     
     enum Action {
        
@@ -23,7 +23,12 @@ class ProductReactor : Reactor {
     }
     
     struct State {
-       
+        var productData : AladinData?
+    }
+    
+    init(productData : AladinData?) {
+        self.initialState = State(productData: productData)
+        print("aladinData ---", productData)
     }
     
 }
