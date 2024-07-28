@@ -50,7 +50,11 @@ class ApiManager {
         return Observable.create { [weak self] observer in
             let myToken = Bundle.main.apiKey
             
-            let url = "http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=\(myToken)&itemIdType=ISBN&ItemId=\(itemID)&output=xml&Version=20131101&OptResult=ebookList,usedList,reviewListl"
+            guard let url = "http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=\(myToken)&itemIdType=ISBN&ItemId=\(itemID)&output=xml&Version=20131101&OptResult=ebookList,usedList,reviewListl".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+                observer.onNext(nil)
+                observer.onCompleted()
+                return Disposables.create()
+            }
             
             AF.request(url, method: .get).response { response in
                 print("상품 요청 ---", response.request?.url)
