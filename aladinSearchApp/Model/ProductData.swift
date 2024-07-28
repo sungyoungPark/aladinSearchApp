@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UsedProductData: Codable {
+struct ProductData: Codable {
     
     var uuid = UUID()
     var title: String
