@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MyViewControllerDelegate: AnyObject {
-    func myViewControllerDidRequestNavigation(with data: AladinData?)
+    func myViewControllerDidRequestNavigation(with data: ProductData?)
 }
 
 protocol Coordinator {
@@ -31,7 +31,7 @@ class MainCoordinator: Coordinator {
         navigationController.pushViewController(mainViewController, animated: false)
     }
     
-    func navigateToNextViewController(with data : AladinData?) {
+    func navigateToNextViewController(with data : ProductData?) {
         let nextViewController = ProductViewController()
         let reactor = ProductReactor(productData: data)
         nextViewController.reactor = reactor
@@ -42,7 +42,7 @@ class MainCoordinator: Coordinator {
 
 extension MainCoordinator: MyViewControllerDelegate {
  
-    func myViewControllerDidRequestNavigation(with data : AladinData?) {
+    func myViewControllerDidRequestNavigation(with data : ProductData?) {
         navigateToNextViewController(with: data)
     }
 }
