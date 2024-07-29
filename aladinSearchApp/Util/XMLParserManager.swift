@@ -27,6 +27,7 @@ class XMLParserManager: NSObject, XMLParserDelegate {
         let parser = XMLParser(data: data)
         parser.delegate = self
         parser.parse()
+        print("aladin ---", aladinItem)
         return productData
     }
 
@@ -92,6 +93,7 @@ class XMLParserManager: NSObject, XMLParserDelegate {
             items.append(currentItem)
         }
         else if elementName == "subInfo" {
+            productData?.aladinData = aladinItem
             print("productData ---", productData)
         }
     }
