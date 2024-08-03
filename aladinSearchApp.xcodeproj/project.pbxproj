@@ -20,6 +20,7 @@
 		5BA2EFEC2C4D176B00049D80 /* ProductData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA2EFEB2C4D176B00049D80 /* ProductData.swift */; };
 		5BA2EFEE2C4D2D4500049D80 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA2EFED2C4D2D4500049D80 /* ProductViewController.swift */; };
 		5BCCDB782C5557BA00FE6BB8 /* ProductReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCCDB772C5557BA00FE6BB8 /* ProductReactor.swift */; };
+		5BDDB9D72C5EA5CC005BBF9F /* ProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDDB9D62C5EA5CC005BBF9F /* ProductView.swift */; };
 		5BE95AA126E9DDC400AE6ACC /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE95AA026E9DDC400AE6ACC /* ApiManager.swift */; };
 		5BF21C272C3ED56F00BFA345 /* ProductViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF21C262C3ED56F00BFA345 /* ProductViewCell.swift */; };
 		5BF21C2F2C3EEC6A00BFA345 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF21C2E2C3EEC6A00BFA345 /* MainCoordinator.swift */; };
@@ -42,6 +43,7 @@
 		5BA2EFEB2C4D176B00049D80 /* ProductData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductData.swift; sourceTree = "<group>"; };
 		5BA2EFED2C4D2D4500049D80 /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		5BCCDB772C5557BA00FE6BB8 /* ProductReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductReactor.swift; sourceTree = "<group>"; };
+		5BDDB9D62C5EA5CC005BBF9F /* ProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductView.swift; sourceTree = "<group>"; };
 		5BE95AA026E9DDC400AE6ACC /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 		5BF21C262C3ED56F00BFA345 /* ProductViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewCell.swift; sourceTree = "<group>"; };
 		5BF21C2E2C3EEC6A00BFA345 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 			children = (
 				5B34792D2C42EDDA00F59560 /* AladinSearchMainViewController.swift */,
 				5BA2EFED2C4D2D4500049D80 /* ProductViewController.swift */,
+				5BDDB9D62C5EA5CC005BBF9F /* ProductView.swift */,
 				5BEFEE8A26EB480F00076DE0 /* Cell */,
 			);
 			path = View;
@@ -287,6 +290,7 @@
 				5B83F82726EBA0B500AE3598 /* ImageManager.swift in Sources */,
 				5BA2EFEC2C4D176B00049D80 /* ProductData.swift in Sources */,
 				5BA2EFEA2C4D00D400049D80 /* Extension+Bundle.swift in Sources */,
+				5BDDB9D72C5EA5CC005BBF9F /* ProductView.swift in Sources */,
 				5B3479302C42EE2C00F59560 /* AladinSearchReactor.swift in Sources */,
 				5BE95AA126E9DDC400AE6ACC /* ApiManager.swift in Sources */,
 				5B3479342C42F52700F59560 /* XMLParserManager.swift in Sources */,
