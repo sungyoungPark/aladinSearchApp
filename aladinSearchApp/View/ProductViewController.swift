@@ -17,40 +17,38 @@ class ProductViewController: UIViewController, View {
     
     var disposeBag: DisposeBag = DisposeBag()
     
-    lazy var mainStackView = {
+    private lazy var mainStackView = {
         let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .leading
+        stackView.axis = .vertical
+        stackView.alignment = .fill
         stackView.distribution = .fill
-        
-        stackView.backgroundColor = .white
         
         return stackView
     }()
     
-    private let titleLabel : UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 20)
-        label.numberOfLines = 0
-        
-        return label
+    private lazy var productView = {
+        let view = ProductView()
+        return view
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupUI()
-    
     }
     
-    func setupUI() {
+    private func setupUI() {
+        self.view.backgroundColor = .white
+ 
         self.view.addSubview(mainStackView)
         
         mainStackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.leading.trailing.equalToSuperview()
+
         }
         
-        mainStackView.addArrangedSubview(titleLabel)
+        mainStackView.addArrangedSubview(productView)
+        
         
     }
     
@@ -61,8 +59,7 @@ class ProductViewController: UIViewController, View {
             .map { $0.productData }
             .distinctUntilChanged()
             .subscribe(onNext : { [weak self] productData in
-                print("productData ---", productData?.aladinData?.title)
-                self?.titleLabel.text = productData?.aladinData?.title
+                self?.productView.configure(with: productData)
             })
             .disposed(by: disposeBag)
     }
