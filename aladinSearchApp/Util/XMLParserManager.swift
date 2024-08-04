@@ -70,17 +70,25 @@ class XMLParserManager: NSObject, XMLParserDelegate {
             else if let _ = aladinItem {
                 aladinItem?.isbn += string
             }
+        
+        case "priceSales" :
+            if let _ = productData {
+                productData?.ebook_priceSales += string
+            }
+            else if let _ = aladinItem {
+                aladinItem?.priceSales += string
+            }
+            
+        case "priceStandard" :
+            if let _ = aladinItem {
+                aladinItem?.priceStandard += string
+            }
             
         case "itemPage" :
             productData?.itemPage += string
             
         case "itemId" :
             productData?.ebook_itemId += string
-            
-        case "priceSales" :
-            if let _ = productData {
-                productData?.ebook_priceSales += string
-            }
             
         default:
             break

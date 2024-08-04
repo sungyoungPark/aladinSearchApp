@@ -14,12 +14,16 @@ struct AladinData: Codable {
     var link : String
     var cover : String
     var isbn : String
+    var priceSales : String
+    var priceStandard : String
     
     init() {
         self.title = ""
         self.link = ""
         self.cover = ""
         self.isbn = ""
+        self.priceSales = ""
+        self.priceStandard = ""
     }
     
 }
