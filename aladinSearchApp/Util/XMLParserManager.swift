@@ -89,6 +89,16 @@ class XMLParserManager: NSObject, XMLParserDelegate {
             
         case "itemId" :
             productData?.ebook_itemId += string
+        
+        case "author" :
+            if let _ = aladinItem {
+                aladinItem?.author += string
+            }
+            
+        case "publisher" :
+            if let _ = aladinItem {
+                aladinItem?.publisher += string
+            }
             
         default:
             break

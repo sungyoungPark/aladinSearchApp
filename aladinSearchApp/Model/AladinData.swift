@@ -17,6 +17,9 @@ struct AladinData: Codable {
     var priceSales : String
     var priceStandard : String
     
+    var author : String
+    var publisher : String
+    
     init() {
         self.title = ""
         self.link = ""
@@ -24,6 +27,8 @@ struct AladinData: Codable {
         self.isbn = ""
         self.priceSales = ""
         self.priceStandard = ""
+        self.author = ""
+        self.publisher = ""
     }
     
 }
