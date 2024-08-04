@@ -19,7 +19,43 @@ class ProductView: UIView {
         return stackView
     }()
     
+    private lazy var rightStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        
+        stackView.backgroundColor = .green
+        
+        return stackView
+    }()
+    
+    private lazy var priceStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        
+        return stackView
+    }()
+    
     private lazy var titleLabel : UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20)
+        label.numberOfLines = 0
+        
+        return label
+    }()
+    
+    private lazy var priceStandardLabel : UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20)
+        label.numberOfLines = 0
+        
+        return label
+    }()
+    
+    private lazy var priceSalesLabel : UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20)
         label.numberOfLines = 0
@@ -53,7 +89,14 @@ class ProductView: UIView {
         }
         
         mainStackView.addArrangedSubview(productImageView)
-        mainStackView.addArrangedSubview(titleLabel)
+        
+        mainStackView.addArrangedSubview(rightStackView)
+        
+        rightStackView.addArrangedSubview(titleLabel)
+        rightStackView.addArrangedSubview(priceStackView)
+        
+        priceStackView.addArrangedSubview(priceStandardLabel)
+        priceStackView.addArrangedSubview(priceSalesLabel)
         
         productImageView.snp.makeConstraints { make in
             make.width.equalTo(85)
@@ -70,6 +113,14 @@ class ProductView: UIView {
         }
         
         titleLabel.text = productData?.aladinData?.title
+        
+        if let priceStandard = productData?.aladinData?.priceStandard {
+            priceStandardLabel.text = priceStandard.isEmpty ? "" : "\(priceStandard)원"
+        }
+        
+        if let priceSales = productData?.aladinData?.priceSales {
+            priceSalesLabel.text = priceSales.isEmpty ? "" : "\(priceSales)원"
+        }
         
     }
     
