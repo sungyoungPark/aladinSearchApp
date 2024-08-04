@@ -24,8 +24,18 @@ class ProductViewCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fill
-        stackView.alignment = .leading
+        stackView.alignment = .top
         stackView.spacing = 10
+        
+        return stackView
+    }()
+    
+    private lazy var publishDataStackView : UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.alignment = .center
+        stackView.spacing = 16
         
         return stackView
     }()
@@ -53,6 +63,22 @@ class ProductViewCell: UITableViewCell {
         return label
     }()
     
+    private let authorLabel : UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 10)
+        label.numberOfLines = 0
+        
+        return label
+    }()
+    
+    private let publisherLabel : UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 10)
+        label.numberOfLines = 0
+        
+        return label
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUI()
@@ -63,6 +89,8 @@ class ProductViewCell: UITableViewCell {
     }
     
     private func setUI() {
+        self.selectionStyle = .none
+        
         self.contentView.addSubview(mainStackView)
         
         mainStackView.snp.makeConstraints { make in
@@ -84,7 +112,11 @@ class ProductViewCell: UITableViewCell {
         
         
         rightStackView.addArrangedSubview(titleLabel)
-        rightStackView.addArrangedSubview(competitionLabel)
+        rightStackView.addArrangedSubview(publishDataStackView)
+        
+        publishDataStackView.addArrangedSubview(authorLabel)
+        publishDataStackView.addArrangedSubview(publisherLabel)
+//        rightStackView.addArrangedSubview(competitionLabel)
     }
     
     func configure(with item: AladinData) {
@@ -94,6 +126,10 @@ class ProductViewCell: UITableViewCell {
         }
         
         titleLabel.attributedText = setAttributeString(string: item.title)
+        
+        
+        authorLabel.text = item.author
+        publisherLabel.text = item.publisher
     }
     
 }

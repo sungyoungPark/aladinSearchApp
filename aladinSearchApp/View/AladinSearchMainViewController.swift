@@ -26,6 +26,7 @@ class AladinSearchMainViewController: UIViewController, View {
         let tableView = UITableView()
         tableView.backgroundColor = .white
         tableView.estimatedRowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .none
         
         return tableView
     }()
@@ -123,7 +124,7 @@ class AladinSearchMainViewController: UIViewController, View {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProductViewCell", for: indexPath) as? ProductViewCell
             
             guard let item = itemIdentifier else { return cell }
-            print("cell item ---",item.isbn)
+            print("cell item ---",item.publisher)
             cell?.configure(with: item)
             
             return cell
