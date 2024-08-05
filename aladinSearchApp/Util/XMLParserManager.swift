@@ -48,6 +48,11 @@ class XMLParserManager: NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         let string = string.trimmingCharacters(in: .whitespacesAndNewlines)
         switch currentElement {
+        case "categoryName" :
+            if let _ = aladinItem {
+                aladinItem?.categoryName += string
+            }
+
         case "title" :
             if let _ = aladinItem {
                 aladinItem?.title += string
@@ -98,6 +103,11 @@ class XMLParserManager: NSObject, XMLParserDelegate {
         case "publisher" :
             if let _ = aladinItem {
                 aladinItem?.publisher += string
+            }
+        
+        case "pubDate" :
+            if let _ = aladinItem {
+                aladinItem?.pubDate += string
             }
             
         default:

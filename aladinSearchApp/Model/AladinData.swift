@@ -10,7 +10,10 @@ import Foundation
 struct AladinData: Codable {
     
     var uuid = UUID()
+    
+    var categoryName : String
     var title: String
+    
     var link : String
     var cover : String
     var isbn : String
@@ -19,8 +22,11 @@ struct AladinData: Codable {
     
     var author : String
     var publisher : String
+    var pubDate : String
+    
     
     init() {
+        self.categoryName = ""
         self.title = ""
         self.link = ""
         self.cover = ""
@@ -29,6 +35,7 @@ struct AladinData: Codable {
         self.priceStandard = ""
         self.author = ""
         self.publisher = ""
+        self.pubDate = ""
     }
     
 }
