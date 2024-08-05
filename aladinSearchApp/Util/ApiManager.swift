@@ -24,7 +24,8 @@ class ApiManager {
                 "TTBKey" : "\(myToken)",
                 "Query" : "\(query)",
                 "Start" : "1",
-                "MaxResults" : "20"
+                "MaxResults" : "20",
+                "SearchTarget" : "All"
             ]
             
             AF.request(url, method: .get, parameters: parameters).response { response in
