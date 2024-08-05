@@ -30,15 +30,6 @@ class ProductViewCell: UITableViewCell {
         return stackView
     }()
     
-    private lazy var publishDataStackView : UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fill
-        stackView.alignment = .center
-        stackView.spacing = 16
-        
-        return stackView
-    }()
     
     private let thumbImageView : UIImageView = {
         let imageView = UIImageView()
@@ -49,35 +40,20 @@ class ProductViewCell: UITableViewCell {
     
     private let titleLabel : UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20)
+        label.font = .systemFont(ofSize: 16)
         label.numberOfLines = 0
         
         return label
     }()
     
-    private let competitionLabel : UILabel = {
+    private let publishDataLabel : UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 15)
+        label.font = .systemFont(ofSize: 13)
         label.numberOfLines = 0
         
         return label
     }()
     
-    private let authorLabel : UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 10)
-        label.numberOfLines = 0
-        
-        return label
-    }()
-    
-    private let publisherLabel : UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 10)
-        label.numberOfLines = 0
-        
-        return label
-    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -112,11 +88,8 @@ class ProductViewCell: UITableViewCell {
         
         
         rightStackView.addArrangedSubview(titleLabel)
-        rightStackView.addArrangedSubview(publishDataStackView)
-        
-        publishDataStackView.addArrangedSubview(authorLabel)
-        publishDataStackView.addArrangedSubview(publisherLabel)
-//        rightStackView.addArrangedSubview(competitionLabel)
+        rightStackView.addArrangedSubview(publishDataLabel)
+
     }
     
     func configure(with item: AladinData) {
@@ -125,16 +98,33 @@ class ProductViewCell: UITableViewCell {
             self?.thumbImageView.image = thumb
         }
         
-        titleLabel.attributedText = setAttributeString(string: item.title)
+        let title = setCategoryString(categoryName: item.categoryName).isEmpty ? item.title : "[\(setCategoryString(categoryName: item.categoryName))] \(item.title)"
+        titleLabel.attributedText = setAttributeString(string: title)
         
+        var pubDataText : [String?] = []
+        if !(item.author.isEmpty) {
+            pubDataText.append(item.author)
+        }
+        if !(item.publisher.isEmpty) {
+            pubDataText.append(item.publisher)
+        }
+        if !(item.pubDate.isEmpty) {
+            pubDataText.append(setPubDateString(pubDate: item.pubDate))
+        }
         
-        authorLabel.text = item.author
-        publisherLabel.text = item.publisher
+        publishDataLabel.text = pubDataText.compactMap { $0 }.joined(separator: " | ")
     }
     
 }
 
 extension ProductViewCell {
+    
+    private func setCategoryString(categoryName : String) -> String {
+        guard let category = categoryName.split(separator: ">").first else {
+            return ""
+        }
+        return String(category)
+    }
     
     private func setAttributeString(string : String) -> NSAttributedString? {
         guard let data = string.data(using: .utf8) else {
@@ -152,6 +142,30 @@ extension ProductViewCell {
         
         return attributedString
         
+    }
+    
+    private func setPubDateString(pubDate : String) -> String? {
+ 
+        // 날짜 포맷터 설정
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss z"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // 영문 로케일 사용
+        dateFormatter.timeZone = TimeZone(abbreviation: "GMT") // GMT 시간대 사용
+
+        // 문자열을 Date로 변환
+        if let date = dateFormatter.date(from: pubDate) {
+            // 한국 시간대 설정
+            let koreanFormatter = DateFormatter()
+            koreanFormatter.dateFormat = "yyyy년 MM월 dd일" // 원하는 형식으로 설정
+            koreanFormatter.timeZone = TimeZone(identifier: "Asia/Seoul") // 한국 시간대 설정
+
+            // 한국 날짜로 변환
+            let koreanDateString = koreanFormatter.string(from: date)
+            return koreanDateString
+        } else {
+            print("날짜 변환 실패")
+            return nil
+        }
     }
     
 }
