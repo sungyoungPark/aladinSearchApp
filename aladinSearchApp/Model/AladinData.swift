@@ -11,6 +11,8 @@ struct AladinData: Codable {
     
     var uuid = UUID()
     
+    var startIndex : String
+    
     var categoryName : String
     var title: String
     
@@ -26,6 +28,7 @@ struct AladinData: Codable {
     
     
     init() {
+        self.startIndex = ""
         self.categoryName = ""
         self.title = ""
         self.link = ""

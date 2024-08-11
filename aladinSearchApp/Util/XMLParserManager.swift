@@ -11,6 +11,8 @@ class XMLParserManager: NSObject, XMLParserDelegate {
 
     private var currentElement = ""
 
+    private var aladinItemIndex = ""
+    
     private var items: [AladinData] = []
     private var aladinItem: AladinData?
 
@@ -48,6 +50,11 @@ class XMLParserManager: NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         let string = string.trimmingCharacters(in: .whitespacesAndNewlines)
         switch currentElement {
+        case "startIndex" :
+            if !string.isEmpty {
+                aladinItemIndex = string
+            }
+            
         case "categoryName" :
             if let _ = aladinItem {
                 aladinItem?.categoryName += string
@@ -117,7 +124,8 @@ class XMLParserManager: NSObject, XMLParserDelegate {
 
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
-            guard let currentItem = aladinItem else { return }
+            guard var currentItem = aladinItem else { return }
+            currentItem.startIndex = aladinItemIndex
             items.append(currentItem)
         }
         else if elementName == "subInfo" {
