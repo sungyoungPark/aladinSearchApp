@@ -73,17 +73,28 @@ class AladinSearchMainViewController: UIViewController, View {
     
     func bind(reactor: AladinSearchReactor) {
         
-        searchController.searchBar.rx.text.orEmpty
-            .distinctUntilChanged()
-            .map { Reactor.Action.updateQuery($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        
         tableView.rx.itemSelected
             .map { Reactor.Action.selectedProcut($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        tableView.rx.willDisplayCell
+            .compactMap { [weak self] cell, indexPath in
+                guard let snapShot = self?.dataSource.snapshot() else { return false  }
+                guard let lastSection = snapShot.sectionIdentifiers.last else { return false }
+                
+                if indexPath.section == snapShot.numberOfSections - 1 && indexPath.row == snapShot.numberOfItems(inSection: lastSection) - 1 {
+                    return true
+                }
+                return false
+            }
+            .filter { $0 }
+            .map { _ in
+                return Reactor.Action.loadNextPage
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    
         
         //일반적인 dataSource 사용할때 사용
 //        reactor.state
@@ -97,7 +108,7 @@ class AladinSearchMainViewController: UIViewController, View {
             .compactMap { $0.searchResult }
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] aladinDatas in
-                self?.updateTableView(with: aladinDatas)
+                self?.updateTableView(with: aladinDatas, section: aladinDatas.first?.startIndex)
             })
             .disposed(by: disposeBag)
         
@@ -124,25 +135,34 @@ class AladinSearchMainViewController: UIViewController, View {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProductViewCell", for: indexPath) as? ProductViewCell
             
             guard let item = itemIdentifier else { return cell }
-            print("cell item ---",item.publisher)
+           
             cell?.configure(with: item)
             
             return cell
         })
     }
     
-    private func updateTableView(with data: [AladinData]) {
-          var snapshot = Snapshot()
-          snapshot.appendSections([0])
-          snapshot.appendItems(data)
-          dataSource.apply(snapshot, animatingDifferences: false)
-      }
+    private func updateTableView(with data: [AladinData], section : String? = "0") {
+        var snapshot = dataSource.snapshot()
+        
+        let section = Int(section ?? "0") ?? 0
+        snapshot.appendSections([Int(section)])
+        snapshot.appendItems(data)
+        dataSource.apply(snapshot, animatingDifferences: false)
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
+        
+    }
     
 }
 
 
 extension AladinSearchMainViewController : UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        var snapshot = Snapshot()
+        dataSource.apply(snapshot, animatingDifferences: false)
+        
+        updateTableView(with: []) //새로운 검색이 있으면 기존 데이터 초기화
         self.reactor?.action.onNext(.search(searchBar.text ?? ""))
         searchController.isActive = false
         searchBar.text = ""
