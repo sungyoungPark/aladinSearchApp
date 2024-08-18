@@ -76,9 +76,9 @@
 		5B3178F726E504F800718494 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				5BDE71D22C707AC200F2AB4A /* SubView */,
 				5B34792D2C42EDDA00F59560 /* AladinSearchMainViewController.swift */,
 				5BA2EFED2C4D2D4500049D80 /* ProductViewController.swift */,
-				5BDDB9D62C5EA5CC005BBF9F /* ProductView.swift */,
 				5BEFEE8A26EB480F00076DE0 /* Cell */,
 			);
 			path = View;
@@ -125,6 +125,14 @@
 				5BA2EFE92C4D00D400049D80 /* Extension+Bundle.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		5BDE71D22C707AC200F2AB4A /* SubView */ = {
+			isa = PBXGroup;
+			children = (
+				5BDDB9D62C5EA5CC005BBF9F /* ProductView.swift */,
+			);
+			path = SubView;
 			sourceTree = "<group>";
 		};
 		5BEFEE7926EB1F8600076DE0 /* Reactor */ = {
