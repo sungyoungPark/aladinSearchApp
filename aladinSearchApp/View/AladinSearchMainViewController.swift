@@ -64,6 +64,10 @@ class AladinSearchMainViewController: UIViewController, View {
         searchController.searchBar.placeholder = "상품을 검색하세요."
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.delegate = self
+        searchController.searchBar.scopeButtonTitles = ["전체", "국내도서", "외국도서", "eBook", "중고샵", "음반", "블루레이"]
+        
+        let attrFontSetting = [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 10)]
+        searchController.searchBar.setScopeBarButtonTitleTextAttributes(attrFontSetting, for: .normal)
         
         self.navigationItem.searchController = searchController
         self.navigationItem.title = "Search"
@@ -89,8 +93,8 @@ class AladinSearchMainViewController: UIViewController, View {
                 return false
             }
             .filter { $0 }
-            .map { _ in
-                return Reactor.Action.loadNextPage
+            .map { [weak self] _ in
+                return Reactor.Action.loadNextPage(self?.searchController.searchBar.selectedScopeButtonIndex ?? 0)
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -148,10 +152,13 @@ class AladinSearchMainViewController: UIViewController, View {
         let section = Int(section ?? "0") ?? 0
         snapshot.appendSections([Int(section)])
         snapshot.appendItems(data)
-        dataSource.apply(snapshot, animatingDifferences: false)
         
-        dataSource.apply(snapshot, animatingDifferences: false)
-        
+        if #available(iOS 15, *) {
+            dataSource?.applySnapshotUsingReloadData(snapshot)
+        }
+        else {
+            dataSource?.apply(snapshot, animatingDifferences: false)
+        }
     }
     
 }
@@ -159,11 +166,11 @@ class AladinSearchMainViewController: UIViewController, View {
 
 extension AladinSearchMainViewController : UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        var snapshot = Snapshot()
+        let snapshot = Snapshot()
         dataSource.apply(snapshot, animatingDifferences: false)
         
-        updateTableView(with: []) //새로운 검색이 있으면 기존 데이터 초기화
-        self.reactor?.action.onNext(.search(searchBar.text ?? ""))
+        print("scope ---", searchBar.selectedScopeButtonIndex)
+        self.reactor?.action.onNext(.search(searchBar.text ?? "", searchBar.selectedScopeButtonIndex))
         searchController.isActive = false
         searchBar.text = ""
         searchBar.resignFirstResponder()

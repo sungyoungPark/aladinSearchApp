@@ -15,8 +15,8 @@ class AladinSearchReactor : Reactor {
     
    
     enum Action {
-        case search(String)
-        case loadNextPage
+        case search(String,Int)
+        case loadNextPage(Int)
         case selectedProcut(IndexPath)
     }
     
@@ -36,27 +36,26 @@ class AladinSearchReactor : Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .search(let searchText) :
+        case .search(let searchText, let searchTarget) :
             return .concat(
                 .just(.setLoading(true)),
                 .just(.setQuery(searchText)),
-                ApiManager.shared.requsetApi(query: searchText)
+                ApiManager.shared.requsetApi(query: searchText, searchTarget: searchTarget)
                     .map { data in
                         return .loadSearchData(data)
-                    },
-                .just(.setLoading(false))
+                    }
+                    .concat(Observable.just(.setLoading(false)))
             )
-        case .loadNextPage :
+        case .loadNextPage(let searchTarget) :
             print("loadNextPage")
             return .concat(
                 .just(.setLoading(true)),
-                ApiManager.shared.requsetApi(query: currentState.query, page: String((Int(currentState.searchResult?.first?.startIndex ?? "0") ?? 0) + 1))
+                ApiManager.shared.requsetApi(query: currentState.query, page: String((Int(currentState.searchResult?.first?.startIndex ?? "0") ?? 0) + 1), searchTarget: searchTarget)
                     .map { data in
                         return .loadSearchData(data)
-                    },
-                .just(.setLoading(false))
+                    }
+                    .concat(Observable.just(.setLoading(false)))
             )
-
         case .selectedProcut(let index):
             
             return ApiManager.shared.requestCheckProduct(itemID: currentState.searchResult?[index.row].isbn ?? "")

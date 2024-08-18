@@ -15,19 +15,20 @@ class ApiManager {
 
     static let shared = ApiManager()
     
-    func requsetApi(query : String, page : String = "1") -> Observable<[AladinData]> {
+    func requsetApi(query : String, page : String = "1" , searchTarget : Int = 0) -> Observable<[AladinData]> {
         return Observable.create { [weak self] observer in
             let url = "http://www.aladin.co.kr/ttb/api/ItemSearch.aspx"
             let myToken = Bundle.main.apiKey
             
             let page = page.isEmpty ? "1" : page
+            let searchTargets = ["All", "Book", "Foreign", "eBook", "Used", "Music", "DVD"]
             
             let parameters: [String: Any] = [
                 "TTBKey" : "\(myToken)",
                 "Query" : "\(query)",
                 "Start" : "\(page)",
                 "MaxResults" : "20",
-                "SearchTarget" : "All"
+                "SearchTarget" : "\(searchTargets[searchTarget])"
             ]
             
             AF.request(url, method: .get, parameters: parameters).response { response in
