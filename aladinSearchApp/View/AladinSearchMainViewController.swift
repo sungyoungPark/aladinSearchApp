@@ -83,6 +83,7 @@ class AladinSearchMainViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         tableView.rx.willDisplayCell
+            .observe(on: MainScheduler.asyncInstance) //에러 핸들링 코드 추가
             .compactMap { [weak self] cell, indexPath in
                 guard let snapShot = self?.dataSource.snapshot() else { return false  }
                 guard let lastSection = snapShot.sectionIdentifiers.last else { return false }
