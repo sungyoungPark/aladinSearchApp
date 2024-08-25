@@ -29,7 +29,6 @@ class XMLParserManager: NSObject, XMLParserDelegate {
         let parser = XMLParser(data: data)
         parser.delegate = self
         parser.parse()
-        print("aladin ---", aladinItem)
         return productData
     }
 
@@ -116,6 +115,11 @@ class XMLParserManager: NSObject, XMLParserDelegate {
             if let _ = aladinItem {
                 aladinItem?.pubDate += string
             }
+       
+        case "description" :
+            if let _ = aladinItem {
+                aladinItem?.description += string
+            }
             
         default:
             break
@@ -130,7 +134,7 @@ class XMLParserManager: NSObject, XMLParserDelegate {
         }
         else if elementName == "subInfo" {
             productData?.aladinData = aladinItem
-            print("productData ---", productData)
+            //print("productData ---", productData)
         }
     }
 

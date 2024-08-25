@@ -26,6 +26,7 @@ struct AladinData: Codable {
     var publisher : String
     var pubDate : String
     
+    var description : String
     
     init() {
         self.startIndex = ""
@@ -39,6 +40,7 @@ struct AladinData: Codable {
         self.author = ""
         self.publisher = ""
         self.pubDate = ""
+        self.description = ""
     }
     
 }

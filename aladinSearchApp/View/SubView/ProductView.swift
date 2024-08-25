@@ -25,8 +25,6 @@ class ProductView: UIView {
         stackView.alignment = .fill
         stackView.distribution = .fill
         
-        stackView.backgroundColor = .green
-        
         return stackView
     }()
     
@@ -70,6 +68,14 @@ class ProductView: UIView {
         return imageView
     }()
     
+    private lazy var descriptionLabel : UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20)
+        label.numberOfLines = 0
+        
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpView()
@@ -103,6 +109,12 @@ class ProductView: UIView {
             make.height.equalTo(100)
         }
         
+        self.addSubview(descriptionLabel)
+        descriptionLabel.snp.makeConstraints { make in
+            make.top.equalTo(mainStackView.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+        }
+        
     }
     
     func configure(with productData : ProductData?) {
@@ -120,6 +132,10 @@ class ProductView: UIView {
         
         if let priceSales = productData?.aladinData?.priceSales {
             priceSalesLabel.text = priceSales.isEmpty ? "" : "\(priceSales)원"
+        }
+        
+        if let description = productData?.aladinData?.description {
+            descriptionLabel.text = description.isEmpty ? "" : description
         }
         
     }
