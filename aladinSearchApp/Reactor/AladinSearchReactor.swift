@@ -69,7 +69,9 @@ class AladinSearchReactor : Reactor {
         var newState = state
         switch mutation {
         case .loadSearchData(let data) :
-            newState.searchResult = data
+            if !data.isEmpty {
+                newState.searchResult = data
+            }
         case .setQuery(let query) :
             print("query ---", query)
             newState.query = query
